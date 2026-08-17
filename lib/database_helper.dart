@@ -1,29 +1,36 @@
 
 
-
+import 'package:path/path.dart';
 
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
 
-  static final DatabaseHelper instance = DatabaseHelper.internal();
+  static final DatabaseHelper instance = DatabaseHelper._internal();
   DatabaseHelper._internal();
 
 
   Database? _database;
   Future<Database> get database async{
-    if (database != null){
+    if (_database != null){
       return _database!;
   }
 
-    _database = await _innitDatabase() asyne{
+
+    _database = await _initDatabase();
+      return _database!;
+    }
+
+
+    Future<Database> _initDatabase() async {
       final databasesPath = await getDatabasesPath();
-      final patch =join(databasesPath, 'contact_manager.db');
+      final path = join(databasesPath, 'contact_manager.db');
       return await openDatabase(
           path,
-        version: 1,
-        onCreate: _createDatabase;
+          version: 1,
+          onCreate: _createDatabase,
       );
+    }
 
       Future<void> _createDatabase(
       Database db,
@@ -32,29 +39,13 @@ class DatabaseHelper {
             await db.execute(
                 '''
           CREATE TABLE contacts (
-          id INTIGER PRIMARY KEY AUTOINCRIMENT,
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT null,
           phone TEXT NOT null,
-          email TXT,
-          address TXT,
-          isFavourite INTIGER DEFAULT 0
+          email TEXT,
+          address TEXT,
+          isFavourite INTEGER DEFAULT 0
           )
           ''');
           }
-
-
-
-        )
-
-
-
-          }
-      )
-
-    }
-
-
-
-
-}
 }
