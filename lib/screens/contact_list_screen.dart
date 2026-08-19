@@ -1,3 +1,5 @@
+import 'contact_details_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -188,8 +190,13 @@ class _ContactListScreenState extends State<ContactListScreen> {
                           contact: contact,
 
                           onTap: () {
-                            debugPrint(
-                              'Selected: ${contact.name}',
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContactDetailsScreen(
+                                  contact: contact,
+                                ),
+                              ),
                             );
                           },
 
