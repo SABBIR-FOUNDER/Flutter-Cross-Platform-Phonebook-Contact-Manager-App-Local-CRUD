@@ -1,3 +1,5 @@
+
+import '../widgets/app_drawer.dart';
 import 'contact_details_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       backgroundColor: Colors.grey.shade50,
 
       appBar: AppBar(
@@ -42,12 +45,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
         foregroundColor: Colors.white,
         elevation: 0,
 
-        leading: IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: const Icon(Icons.menu),
+              tooltip: 'Menu',
+            );
           },
-          icon: const Icon(Icons.menu),
-          tooltip: 'Menu',
         ),
 
         title: const Text(

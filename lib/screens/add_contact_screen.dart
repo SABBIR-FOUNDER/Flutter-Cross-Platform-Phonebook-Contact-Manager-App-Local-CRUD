@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../contact_model.dart';
 import '../contact_provider.dart';
 import '../widgets/contact_form.dart';
 
@@ -15,14 +14,12 @@ class AddContactScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         elevation: 0,
-
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-
         title: const Text(
           'Add Contact',
           style: TextStyle(
@@ -30,13 +27,16 @@ class AddContactScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: ContactForm(
         buttonText: 'Save Contact',
+        onSubmit: (contact) async {
+          await context
+              .read<ContactProvider>()
+              .addContact(contact);
 
-        onSave: () {
-          // We will connect the form values
-          // to SQLite in the next step.
+          if (context.mounted) {
+            Navigator.pop(context);
+          }
         },
       ),
     );
