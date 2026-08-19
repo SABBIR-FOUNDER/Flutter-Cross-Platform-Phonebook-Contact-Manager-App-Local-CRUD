@@ -9,17 +9,19 @@ class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
   @override
-  State<FavoritesScreen> createState() =>
-      _FavoritesScreenState();
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesScreenState
-    extends State<FavoritesScreen> {
+class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+
       context.read<ContactProvider>().loadContacts();
     });
   }
@@ -89,18 +91,17 @@ class _FavoritesScreenState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ContactDetailsScreen(
-                              contact: contact,
-                            ),
+                        builder: (context) {
+                          return ContactDetailsScreen(
+                            contact: contact,
+                          );
+                        },
                       ),
                     );
                   },
 
                   onFavouriteTap: () async {
-                    await provider.toogleFavourite(
-                      contact,
-                    );
+                    await provider.toogleFavourite(contact);
                   },
                 ),
               );

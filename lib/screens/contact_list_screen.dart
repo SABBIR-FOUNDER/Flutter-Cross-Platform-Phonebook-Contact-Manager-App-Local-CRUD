@@ -1,4 +1,4 @@
-
+import 'add_contact_screen.dart';
 import '../widgets/app_drawer.dart';
 import 'contact_details_screen.dart';
 
@@ -20,18 +20,30 @@ class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    _searchController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
-  void _searchContacts(String value) {
-    context.read<ContactProvider>().searchContacts(value);
+  Future<void> _searchContacts(String value) async {
+    await context.read<ContactProvider>().searchContacts(
+      value,
+    );
   }
 
-  void _clearSearch() {
+  Future<void> _clearSearch() async {
     _searchController.clear();
-    context.read<ContactProvider>().clearSearch();
+
+    await context.read<ContactProvider>().clearSearch();
   }
 
   @override
@@ -104,7 +116,9 @@ class _ContactListScreenState extends State<ContactListScreen> {
             ),
             child: TextField(
               controller: _searchController,
-              onChanged: _searchContacts,
+              onChanged: (value) {
+                _searchContacts(value);
+              },
 
               decoration: InputDecoration(
                 hintText: 'Search contacts...',
@@ -226,11 +240,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
-
         onPressed: () {
-          debugPrint('Add Contact pressed');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const AddContactScreen();
+              },
+            ),
+          );
         },
-
         child: const Icon(Icons.add),
       ),
     );

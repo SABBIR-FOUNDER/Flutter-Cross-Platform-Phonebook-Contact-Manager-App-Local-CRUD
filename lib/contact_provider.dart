@@ -104,18 +104,30 @@ class ContactProvider extends ChangeNotifier {
 
 
 //Name search
-  void searchContacts(String query) {
+  Future<void> searchContacts(String query) async {
     _searchQuery = query.trim();
 
     if (_searchQuery.isEmpty) {
-      loadContacts();
+      await loadContacts();
       return;
     }
 
-    final lowercaseQuery = _searchQuery.toLowerCase();
-    _contacts = _contacts.where((contact) {
-      return contact.name.toLowerCase().contains(lowercaseQuery);
-    }).toList();
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      _contacts = await _databaseHelper.searchContacts(
+        _searchQuery,
+      );
+
+      _favourites = _contacts
+          .where((contact) => contact.isFavourite)
+          .toList();
+    } catch (e) {
+      debugPrint('Error Searching Contacts: $e');
+    }
+
+    _isLoading = false;
     notifyListeners();
   }
 
