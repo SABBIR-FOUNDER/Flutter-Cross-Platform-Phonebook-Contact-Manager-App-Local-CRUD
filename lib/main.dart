@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint('Add Contact button pressed');
+          debugPrint('Add Contact Button Pressed');
         },
         child: const Icon(Icons.add),
       ),
