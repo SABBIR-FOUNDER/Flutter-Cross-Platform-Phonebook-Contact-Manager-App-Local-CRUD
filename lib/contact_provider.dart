@@ -115,7 +115,6 @@ class ContactProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
       _contacts = await _databaseHelper.searchContacts(
         _searchQuery,
       );
