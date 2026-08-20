@@ -26,7 +26,7 @@ class Contact {
       phone: map['phone'] as String? ?? '',
       email: map['email']as String? ?? '',
       address: map['address']as String? ?? '',
-      isFavourite: (map['isFavorite']as int?) ==1,
+      isFavourite: (map['isFavourite']as int?) ==1,
     );
   }
 
